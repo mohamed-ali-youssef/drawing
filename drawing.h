@@ -1,13 +1,13 @@
 /*******************************************************************
   Design library for drawing colors on the black screen commands Terminal
            using language C++ This library is open source
-   Developed by Eng. Mohammad Ali Youssef on Last Update 17-08-2023
+   Developed by Eng. Mohammad Ali Youssef on Last Update 19-08-2023
     Tel : +20 01066568205  |   Email : ensert.egypt@hotmail.com
 *******************************************************************/
 
 #include <iostream>
 #include <string.h>
- #include<cmath>
+#include <cmath>
 using namespace std;
 string CodeFrontColor[] = {"39","30","31","32","33","34","35","36","37","90","91","92","93","94","95","96","97"};    
 string CodeBackground[] = {"49","40","41","42","43","44","45","46","47","100","101","102","103","104","105","106","107"};
@@ -175,18 +175,36 @@ class Drawing
 
             for(int i = 0; i < cRow; i++)
             {
+                cout << "    " ;
                 cout << TextColor(" ",FrontColor.Black(),ColorBox,FormatAttribute.Default()) << "\n";
-                cout << TextColor(xRow.arr[i],HeadsColor,Background.Default(),FormatAttribute.Bold()) << " " ;
+                cout << "    " << TextColor(xRow.arr[i],HeadsColor,Background.Default(),FormatAttribute.Bold()) << " " ;
                 cout << TextColor(" ",FrontColor.Black(),ColorBox,FormatAttribute.Default());
                 int dCol = ceil((stod(xCol.arr[i]) / 2) - 1);
                 for(int j = 0; j < dCol; j++)
                 { cout << TextColor(" ",FrontColor.Black(),ColumnsColour,FormatAttribute.Default()); }
                 cout << xCol.arr[i] << "\n    ";
-                //cout << "" ;
             }
-            cout << TextColor(" ",FrontColor.Black(),ColorBox,FormatAttribute.Default()) ;
-            cout << TextColor("_____________________________________________________",to_string((stoi(ColorBox)- 10)) ,Background.Default(),FormatAttribute.Default()) << "\n";
-            cout << TextColor("    0   10   20   30   40   50   60   70   80   90   100  ",HeadsColor,Background.Default(),FormatAttribute.Bold()) << "\n";
+            cout << "    " << TextColor(" ",FrontColor.Black(),ColorBox,FormatAttribute.Default()) ;
+            cout << TextColor("......................................................",to_string((stoi(ColorBox)- 10)) ,Background.Default(),FormatAttribute.Underlined()) << "\n";
+            cout << TextColor("        0   10   20   30   40   50   60   70   80   90   100  ",HeadsColor,Background.Default(),FormatAttribute.Bold()) << "\n";
+        }
+        void ProgressBar(int value,string ProgressBarColor,string backgroundColor)
+        {
+            string str1,str2;
+            cout << "    ";
+            int Load = ceil(value / 4) ;
+            for(int i = 0; i < Load; i++) { str1 = str1 + " "; }
+            for(int i = Load; i < 25; i++) { str2 = str2 + " "; }
+            cout << "\r   Loading.. " << TextColor(str1,FrontColor.Default(),
+                ProgressBarColor,FormatAttribute.Default()) << 
+                TextColor(str2,FrontColor.Default(),
+                backgroundColor,FormatAttribute.Default())
+                << " %" << value << " ";
+            if(value == 100) 
+            {
+                cout << "\n   " << TextColor("Completed successfully..",FrontColor.Green(),
+                Background.Default(),FormatAttribute.Default()) << endl;
+            }
         }
 
         void Developer()
